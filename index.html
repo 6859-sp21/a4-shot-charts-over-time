@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<!-- saved from url=(0080)file:///C:/Users/kgite/AppData/Local/Temp/Temp1_HW2-kgite3-1.zip/Q4/heatmap.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="d3/d3.js"></script>
+
+<style type="text/css">
+svg {
+	display: block;
+	margin: auto;
+}
+
+body {
+	font-size: 15px;
+	font-family: sans-serif;
+}
+
+rect {
+	fill:white;
+}
+
+#court {
+	position: absolute;
+	width:60%;
+	left:0px;
+	top:1em;
+}
+
+
+#hoop {
+	position: absolute;
+	width:35%;
+	left:9.5%;
+	top:15px;
+}
+
+.clicked {
+	background-color: green;
+}
+
+
+#subgraphs{
+	display: block;
+	position: absolute;
+	top: 10vh;
+	left:50vw;
+}
+
+#teamgraphs{
+	display: block;
+	position: absolute;
+	top: 50vh;
+	left:50vw;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+
+<div id="years">
+<input class="chk clicked" type="button" id="2010-11" value="2010-11">
+<input class="chk" type="button" id="2011-12" value="2011-12">
+<input class="chk" type="button" id="2012-13" value="2012-13">
+<input class="chk" type="button" id="2013-14" value="2013-14">
+<input class="chk" type="button" id="2014-15" value="2014-15">
+<input class="chk" type="button" id="2015-16" value="2015-16">
+<input class="chk" type="button" id="2016-17" value="2016-17">
+<input class="chk" type="button" id="2017-18" value="2017-18">
+<input class="chk" type="button" id="2018-19" value="2018-19">
+<input class="chk" type="button" id="2019-20" value="2019-20">
+</div>
+<!--- none, all buttons too --->
+<!--- play animation --->
+
+<div id="teams">
+
+</div>
+
+
+<div id="maincourt">
+
+<svg version="1.1" viewBox="0.0 0.0 1660.0 1420.0" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+	<clipPath id="p.0"><path d="m0 0l960.0 0l0 720.0l-960.0 0l0 -720.0z" clip-rule="nonzero"/></clipPath>
+	<g clip-path="url(#p.0)">
+		<polygon id = "fullcourt" fill="#ffffff" fill-opacity="0.0" points="0.000,0.000 960.000,0.000 960.000,720.000 0.000,720.000" fill-rule="nonzero"/>
+		<polygon id = "abovethebreak" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="68.436,52.753 697.192,52.753 697.192,652.722 68.436,652.722" fill-rule="evenodd"/>
+		<!--<polygon id="leftside" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="69.861,52.753 109.798,52.753 109.798,230.958 69.861,230.958" fill-rule="evenodd"/>-->
+		<!--<polygon id="rightside" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="661.543,52.753 695.898,52.753 695.898,230.958 661.543,230.958" fill-rule="evenodd"/>-->
+		<polygon id = "midrange" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="661.543,52.753 661.543,234.533 661.543,234.533 661.543,416.312 109.795,416.312 109.795,234.533 109.795,52.753" fill-rule="evenodd"/>
+		<polygon id="paint" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="285.857,52.753 486.896,52.753 486.896,292.281 285.857,292.281" fill-rule="evenodd"/>
+		<polygon id="restrictedarea" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="443.419,52.753 443.419,102.659 443.419,152.564 327.923,152.564 327.923,102.659 327.923,52.753" fill-rule="evenodd"/>
+		<!--<polygon id="backcourt" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="70.286,573.150 695.042,573.150 695.042,652.189 70.286,652.189" fill-rule="evenodd"/>-->
+	</g>
+</svg>
+
+</div>
+
+
+<div id="subgraphs"></div>
+
+<div id="teamgraphs"></div>
+
+
+<script>
+
+
+Promise.all([
+d3.csv("bball.csv")
+])
+.then(function(dt){
+
+dt1 = dt[0];
+
+dt1.forEach(function(d){
+	d["Above the Break 3_FGA"] = +d["Above the Break 3_FGA"];
+	d["Above the Break 3_FGM"] = +d["Above the Break 3_FGM"];
+	d["Above the Break 3_FG_PCT"] = +d["Above the Break 3_FG_PCT"];
+	d["Backcourt_FGA"] = +d["Backcourt_FGA"];
+	d["Backcourt_FGM"] = +d["Backcourt_FGM"];
+	d["Backcourt_FG_PCT"] = +d["Backcourt_FG_PCT"];
+	d["In The Paint (Non-RA)_FGA"] = +d["In The Paint (Non-RA)_FGA"];
+	d["In The Paint (Non-RA)_FGM"] = +d["In The Paint (Non-RA)_FGM"];
+	d["In The Paint (Non-RA)_FG_PCT"] = +d["In The Paint (Non-RA)_FG_PCT"];
+	d["Left Corner 3_FGA"] = +d["Left Corner 3_FGA"];
+	d["Left Corner 3_FGM"] = +d["Left Corner 3_FGM"];
+	d["Left Corner 3_FG_PCT"] = +d["Left Corner 3_FG_PCT"];
+	d["Mid-Range_FGA"] = +d["Mid-Range_FGA"];
+	d["Mid-Range_FGM"] = +d["Mid-Range_FGM"];
+	d["Mid-Range_FG_PCT"] = +d["Mid-Range_FG_PCT"];
+	d["Restricted Area_FGA"] = +d["Restricted Area_FGA"];
+	d["Restricted Area_FGM"] = +d["Restricted Area_FGM"];
+	d["Restricted Area_FG_PCT"] = +d["Restricted Area_FG_PCT"];
+	d["Right Corner 3_FGA"] = +d["Right Corner 3_FGA"];
+	d["Right Corner 3_FGM"] = +d["Right Corner 3_FGM"];
+	d["Right Corner 3_FG_PCT"] = +d["Right Corner 3_FG_PCT"];
+});
+
+console.log(dt1);
+
+var oneyear = dt1.filter(d=>d.Season == "2019-20");
+oneyear.sort(function(a,b){return a.TEAM_ID < b.TEAM_ID;});
+
+for (var i = 0; i < oneyear.length; i++) {
+	var btn = document.createElement("input");
+	btn.setAttribute("type","checkbox");
+	btn.setAttribute("id",oneyear[i].TEAM_ID);
+	btn.classList.add("tm");
+	var lab = document.createElement("label");
+	lab.innerText = oneyear[i].TEAM_NAME;
+	lab.setAttribute("for",oneyear[i].TEAM_NAME);
+	document.getElementById("teams").appendChild(btn);
+	document.getElementById("teams").appendChild(lab);
+}
+
+var btn = document.createElement("input");
+btn.setAttribute("type","checkbox");
+btn.setAttribute("id","all");
+btn.classList.add("tm");
+var lab = document.createElement("label");
+lab.innerText = "All";
+lab.setAttribute("for","all");
+document.getElementById("teams").appendChild(btn);
+document.getElementById("teams").appendChild(lab);
+document.getElementById("all").checked = true;
+
+var elems = document.getElementsByClassName("tm");
+
+for (var i = 0; i < elems.length; i++) {
+	elems[i].addEventListener('click', checkboxClick);
+}
+
+
+function getData(season, team){
+	if (team == 'all'){var sznvals = dt1.filter(function(d){return (season == (d.Season))});}
+	else {var sznvals = dt1.filter(function(d){return (season == (d.Season)) && (team.includes(d.TEAM_ID));});}
+	var results = {};
+	var leftside = sznvals.reduce(function(prev, cur) {return prev + cur['Left Corner 3_FGA'];}, 0);
+	var rightside = sznvals.reduce(function(prev, cur) {return prev + cur['Right Corner 3_FGA'];}, 0);
+	results['paint'] = sznvals.reduce(function(prev, cur) {return prev + cur['In The Paint (Non-RA)_FGA'];}, 0);
+	results['restrictedarea'] = sznvals.reduce(function(prev, cur) {return prev + cur['Restricted Area_FGA'];}, 0);
+	results['midrange'] = sznvals.reduce(function(prev, cur) {return prev + cur['Mid-Range_FGA'];}, 0);
+	results['abovethebreak'] = (sznvals.reduce(function(prev, cur) {return prev + cur['Above the Break 3_FGA'];}, 0)) +leftside +rightside;
+	var leftside_made = sznvals.reduce(function(prev, cur) {return prev + cur['Left Corner 3_FGM'];}, 0);
+	var rightside_made = sznvals.reduce(function(prev, cur) {return prev + cur['Right Corner 3_FGM'];}, 0);
+	results['paint_made'] = sznvals.reduce(function(prev, cur) {return prev + cur['In The Paint (Non-RA)_FGM'];}, 0);
+	results['restrictedarea_made'] = sznvals.reduce(function(prev, cur) {return prev + cur['Restricted Area_FGM'];}, 0);
+	results['midrange_made'] = sznvals.reduce(function(prev, cur) {return prev + cur['Mid-Range_FGM'];}, 0);
+	results['abovethebreak_made'] = (sznvals.reduce(function(prev, cur) {return prev + cur['Above the Break 3_FGM'];}, 0)) +leftside_made +rightside_made;
+	//console.log(results)
+	return results;
+};
+
+labelmap = {"restrictedarea":"1. Restricted Area", "paint":"2. Paint", "midrange":"3. Midrange", "abovethebreak":"4. 3-Pointer",
+"restrictedarea_made":"1. Restricted Area", "paint_made":"2. Paint", "midrange_made":"3. Midrange", "abovethebreak_made":"4. 3-Pointer"};
+
+
+function setColors(results){
+	var colorscale = d3.scaleDiverging(d3.interpolatePurples)
+		.domain([d3.min(Object.values(results)),(d3.max(Object.values(results))-d3.min(Object.values(results)))/2,d3.max(Object.values(results))]);
+	//d3.select('#leftside').attr('fill',colorscale(results.leftside));
+	//d3.select('#rightside').attr('fill',colorscale(results.rightside));
+	d3.select('#paint').attr('fill',colorscale(results.paint));
+	d3.select('#restrictedarea').attr('fill', colorscale(results.restrictedarea));
+	d3.select('#midrange').attr('fill', colorscale(results.midrange));
+	d3.select('#abovethebreak').attr('fill', colorscale(results.abovethebreak));
+};
+
+function checkboxClick(arg1){
+	//console.log(currentData)
+	var box = (document.getElementById(arg1.target.id));
+	if (box.type == "button") {
+		var els = document.getElementsByClassName("chk");
+		for (var i = 0; i < els.length; i++) {
+			els[i].classList.remove('clicked');
+		}
+		yrid = box.id;
+		document.getElementById(yrid).classList.add('clicked');
+
+	} else {
+		var els = document.getElementsByClassName("chk");
+		for (var i = 0; i < els.length; i++) {
+			if (els[i].classList.contains('clicked')) {yrid = els[i].id;}
+		}
+
+		if (box.id !== "all") {document.getElementById('all').checked = false;}
+		else {
+			var tmp = document.getElementsByClassName("tm");
+			for (var i = 0; i < tmp.length; i++) {
+				tmp[i].checked = false;
+			box.checked = true;
+			}
+		}
+	}
+	var els2 = document.getElementsByClassName("tm");
+	tmid = [];
+	for (var i = 0; i < els2.length; i++) {
+		if (els2[i].checked) { tmid.push(els2[i].id);}
+	}
+
+	console.log(tmid);
+	console.log(yrid);
+	var res = getData(yrid, tmid); 
+
+	//console.log("subtracting");
+	//currentData["leftside"] = res["leftside"];
+	//currentData["rightside"] = res["rightside"];
+	// currentData["paint"] = res["paint"];
+	// currentData["restrictedarea"] = res["restrictedarea"];
+	// currentData["midrange"] = res["midrange"];
+	// currentData["abovethebreak"] = res["abovethebreak"];
+	currentData = res;
+	console.log(currentData);
+
+	setColors(currentData);
+	populateBar();
+	teamBars(yrid, tmid,'allcourt');
+};
+
+var elements = document.getElementsByClassName("chk");
+
+for (var i = 0; i < elements.length; i++) {
+    elements[i].addEventListener('click', checkboxClick);
+}
+
+currentData = getData('2010-11', 'all');
+setColors(currentData);
+
+//2011 lockout
+//2020-21 incomplete
+
+
+
+
+function populateBar(){
+	d3.selectAll(".horiz_bar").remove();
+
+	var marg = 20;
+
+	var w = 600;
+	var h = 400;
+	var svg = d3.select("#subgraphs")
+	             .append("svg")
+	             .attr("width", w)
+	             .attr("height", h)
+	             .attr("class","horiz_bar");
+
+	var x = d3.scaleLinear()
+	    .domain([0, 70000])
+	    .range([ marg, (w-marg)]);
+	//console.log(x(0));
+
+	var y = d3.scaleBand()
+	  .domain([0,1,2,3])
+	  .range([h-marg, marg]);
+
+
+	svg.selectAll("rect").remove();
+	svg.selectAll("text").remove();
+
+	var newdata_a = [];
+	var newdata_m = [];
+	for (const [key, value] of Object.entries(currentData)) {
+		if (key.indexOf("_made") < 0){
+		newdata_a.push({"label":labelmap[key],"value":value})
+		} else {
+		newdata_m.push({"label":labelmap[key],"value":value})
+		}
+	}
+
+	newdata_a.sort(function(a,b){if(a.label<b.label){return 1;} else {return -1;}});
+	newdata_m.sort(function(a,b){if(a.label<b.label){return 1;} else {return -1;}});
+
+	//console.log(newdata_a);
+	//console.log(newdata_m);
+
+	svg.selectAll("gdot")
+	    .data(newdata_a)
+	    .enter()
+		.append("rect")
+	  	.attr("x", x(0))
+	  	.attr("y", function (d,i) { return y(i)} )
+	  	.attr("width", d => x(d.value))
+	  	.attr("height", y.bandwidth())
+	  	.style('fill','#cbc3e3')
+	  	.style("stroke", "black");
+
+	svg.selectAll("gdot2")
+	    .data(newdata_m)
+	    .enter()
+		.append("rect")
+	  	.attr("x", x(0))
+	  	.attr("y", function (d,i) { return y(i)} )
+	  	.attr("width", d => x(d.value))
+	  	.attr("height", y.bandwidth())
+	  	.style('fill','purple')
+	  	.style("stroke", "black");
+
+
+	svg.selectAll("textlabels")
+	.data(newdata_a)
+	.enter()
+	.append("text")
+	.attr("x",x(0))
+	.attr("y",(d,i)=>y(i)+y.bandwidth()/2)
+	.text(d=>d.label)
+	.style("fill","white");
+}
+
+populateBar();
+
+
+function teamBars(yrid, tmid, courtpart){
+	if (tmid == 'all'){var sznvals = dt1.filter(function(d){return (yrid == (d.Season))});}
+	else {var sznvals = dt1.filter(function(d){return (yrid == (d.Season)) && (tmid.includes(d.TEAM_ID));});}
+	var condensed = [];
+	for (var i = 0; i < sznvals.length; i++) {
+		condensed[i] = {};
+		condensed[i]['team'] = sznvals[i]['TEAM_NAME'];
+
+		if (courtpart=='allcourt'){
+			condensed[i]['FGA'] = sznvals[i]['Left Corner 3_FGA'] + sznvals[i]['Right Corner 3_FGA'] + sznvals[i]['In The Paint (Non-RA)_FGA']
+				+ sznvals[i]['Restricted Area_FGA'] + sznvals[i]['Mid-Range_FGA'] + sznvals[i]['Above the Break 3_FGA'];
+			condensed[i]['FGM'] = sznvals[i]['Left Corner 3_FGM'] + sznvals[i]['Right Corner 3_FGM'] + sznvals[i]['In The Paint (Non-RA)_FGM']
+				+ sznvals[i]['Restricted Area_FGM'] + sznvals[i]['Mid-Range_FGM'] + sznvals[i]['Above the Break 3_FGM'];
+		} else {
+			if (courtpart == "threepointer") {
+				condensed[i]['FGA'] = sznvals[i]['Left Corner 3_FGA'] + sznvals[i]['Right Corner 3_FGA'] + sznvals[i]['Above the Break 3_FGA'];
+				condensed[i]['FGM'] = sznvals[i]['Left Corner 3_FGM'] + sznvals[i]['Right Corner 3_FGM'] + sznvals[i]['Above the Break 3_FGM'];
+			} else {
+				condensed[i]["FGA"] = sznvals[i][courtpart+"_FGA"];
+				condensed[i]["FGM"] = sznvals[i][courtpart+"_FGM"];
+			}
+		}
+	}
+
+	condensed.sort(function(a,b){if (a.FGM > b.FGM) {return -1;} else {return 1;}});
+
+	console.log(condensed);
+	//console.log(Array.from(condensed.keys()));
+
+	d3.selectAll(".vert_bar").remove();
+
+	var marg = 20;
+
+	var w = 800;
+	var h = 400;
+
+	var svg = d3.select("#teamgraphs")
+	             .append("svg")
+	             .attr("width", w)
+	             .attr("height", h)
+	             .attr("class","vert_bar");
+
+	var y = d3.scaleLinear()
+	    .domain([0, 8000])
+	    .range([marg, (h-marg)]);
+	//console.log([y(3000), y(6000)]);
+
+	var x = d3.scaleBand()
+	  .domain(Array.from(condensed.keys()))
+	  .range([marg, w-marg]);
+
+
+	d3.selectAll(".qs").remove();
+	d3.selectAll(".qs2").remove();
+	d3.selectAll(".textlabels2").remove();
+
+	svg.selectAll("qs")
+	    .data(condensed)
+	    .enter()
+		.append("rect")
+	  	.attr("y", function(d){return h-marg-y(d.FGA)})
+	  	.attr("x", function (d,i) { return x(i)} )
+	  	.attr("width", x.bandwidth()-5)
+	  	.attr("height", d => y(d.FGA))
+	  	.style('fill','#cbc3e3')
+	  	.style("stroke", "black");
+
+	svg.selectAll("qs2")
+	    .data(condensed)
+	    .enter()
+		.append("rect")
+	  	.attr("y", function(d){return h-marg-y(d.FGM)})
+	  	.attr("x", function (d,i) { return x(i)} )
+	  	.attr("width", x.bandwidth()-5)
+	  	.attr("height", d => y(d.FGM))
+	  	.style('fill','purple')
+	  	.style("stroke", "black");
+
+
+	svg.selectAll("textlabels2")
+	    .data(condensed)
+	    .enter()
+		.append("text")
+		.attr("transform", function(d,i) {
+			var xText = x(i) + x.bandwidth()/2; 
+			var yText = h-marg;
+			return "translate(" + xText + "," + yText + ") rotate(270)";
+		})
+	  	.text(d => d.team)
+	  	.style('fill','white');
+
+}
+
+teamBars('2010-11', 'all', 'allcourt')
+
+
+}) //end of then function
+
+</script>
+
+</body>
+</html>
