@@ -258,7 +258,7 @@ function checkboxClick(arg1){
 	// currentData["midrange"] = res["midrange"];
 	// currentData["abovethebreak"] = res["abovethebreak"];
 	currentData = res;
-	console.log(currentData);
+	//console.log(currentData);
 
 	setColors(currentData);
 	populateBar(currentData);
@@ -294,9 +294,9 @@ function populateBar(currentData){
 	             .attr("class","horiz_bar");
 
 	var x = d3.scaleLinear()
-	    .domain([0, d3.max(currentData)])
+	    .domain([0, Math.max(currentData.restrictedarea, currentData.abovethebreak, currentData.paint, currentData.midrange)])
 	    .range([ marg, (w-marg)]);
-	//console.log(x(0));
+	//console.log(Math.max(currentData.restrictedarea, currentData.abovethebreak, currentData.paint, currentData.midrange));
 
 	var y = d3.scaleBand()
 	  .domain([0,1,2,3])
@@ -474,7 +474,7 @@ function oneSeason(szns, i, tmid){
 	setColors(tmpdata);
 	populateBar(tmpdata);
 	teamBars(szns[i],tmid,courtpart); //replace with custom d3 transitions? separate transition functions
-	console.log(szns[i]);
+	//console.log(szns[i]);
 	if (i+1<szns.length) {
 		document.getElementById(szns[i]).classList.remove("clicked");
 		document.getElementById(szns[i+1]).classList.add('clicked');
