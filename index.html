@@ -294,7 +294,7 @@ function populateBar(currentData){
 	             .attr("class","horiz_bar");
 
 	var x = d3.scaleLinear()
-	    .domain([0, 70000])
+	    .domain([0, d3.max(currentData)])
 	    .range([ marg, (w-marg)]);
 	//console.log(x(0));
 
