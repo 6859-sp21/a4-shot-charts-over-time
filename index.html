@@ -18,11 +18,11 @@ rect {
 	fill:white;
 }
 
-#court {
+#maincourt {
 	position: absolute;
-	width:60%;
-	left:0px;
-	top:1em;
+	width:90%;
+	left:75px;
+	top:25vh;
 }
 
 
@@ -42,7 +42,7 @@ rect {
 	display: block;
 	position: absolute;
 	top: 10vh;
-	left:50vw;
+	left:60vw;
 }
 
 #teamgraphs{
@@ -58,7 +58,7 @@ rect {
 
 <body>
 
-
+<h2>Season</h2>
 
 <div id="years">
 <input class="chk clicked" type="button" id="2010-11" value="2010-11">
@@ -75,9 +75,14 @@ rect {
 <!--- none, all buttons too --->
 <!--- play animation --->
 
-<div id="teams">
+<h2>Team</h2>
+<div id="teams" style="width:50vw">
 
 </div>
+
+<h2>Animate</h2>
+<input class="anim" type="button" id="playanim" value="Play">
+<div id="currentyr"></div>
 
 
 <div id="maincourt">
@@ -202,10 +207,10 @@ function setColors(results){
 		.domain([d3.min(Object.values(results)),(d3.max(Object.values(results))-d3.min(Object.values(results)))/2,d3.max(Object.values(results))]);
 	//d3.select('#leftside').attr('fill',colorscale(results.leftside));
 	//d3.select('#rightside').attr('fill',colorscale(results.rightside));
-	d3.select('#paint').attr('fill',colorscale(results.paint));
-	d3.select('#restrictedarea').attr('fill', colorscale(results.restrictedarea));
-	d3.select('#midrange').attr('fill', colorscale(results.midrange));
-	d3.select('#abovethebreak').attr('fill', colorscale(results.abovethebreak));
+	d3.select('#paint').transition().ease(d3.easeLinear).attr('fill',colorscale(results.paint));
+	d3.select('#restrictedarea').transition().ease(d3.easeLinear).attr('fill', colorscale(results.restrictedarea));
+	d3.select('#midrange').transition().ease(d3.easeLinear).attr('fill', colorscale(results.midrange));
+	d3.select('#abovethebreak').transition().ease(d3.easeLinear).attr('fill', colorscale(results.abovethebreak));
 };
 
 function checkboxClick(arg1){
@@ -218,6 +223,7 @@ function checkboxClick(arg1){
 		}
 		yrid = box.id;
 		document.getElementById(yrid).classList.add('clicked');
+		document.getElementById('currentyr').innerText = yrid;
 
 	} else {
 		var els = document.getElementsByClassName("chk");
@@ -255,7 +261,7 @@ function checkboxClick(arg1){
 	console.log(currentData);
 
 	setColors(currentData);
-	populateBar();
+	populateBar(currentData);
 	teamBars(yrid, tmid,'allcourt');
 };
 
@@ -274,13 +280,13 @@ setColors(currentData);
 
 
 
-function populateBar(){
+function populateBar(currentData){
 	d3.selectAll(".horiz_bar").remove();
 
 	var marg = 20;
 
 	var w = 600;
-	var h = 400;
+	var h = 300;
 	var svg = d3.select("#subgraphs")
 	             .append("svg")
 	             .attr("width", w)
@@ -318,38 +324,35 @@ function populateBar(){
 
 	svg.selectAll("gdot")
 	    .data(newdata_a)
-	    .enter()
-		.append("rect")
+	    .join("rect")
 	  	.attr("x", x(0))
 	  	.attr("y", function (d,i) { return y(i)} )
-	  	.attr("width", d => x(d.value))
 	  	.attr("height", y.bandwidth())
 	  	.style('fill','#cbc3e3')
+	  	.attr("width", d => x(d.value))
 	  	.style("stroke", "black");
 
 	svg.selectAll("gdot2")
 	    .data(newdata_m)
-	    .enter()
-		.append("rect")
+	    .join("rect")
 	  	.attr("x", x(0))
 	  	.attr("y", function (d,i) { return y(i)} )
-	  	.attr("width", d => x(d.value))
 	  	.attr("height", y.bandwidth())
 	  	.style('fill','purple')
+	  	.attr("width", d => x(d.value))
 	  	.style("stroke", "black");
 
 
 	svg.selectAll("textlabels")
 	.data(newdata_a)
-	.enter()
-	.append("text")
+	.join("text")
 	.attr("x",x(0))
 	.attr("y",(d,i)=>y(i)+y.bandwidth()/2)
 	.text(d=>d.label)
 	.style("fill","white");
 }
 
-populateBar();
+populateBar(currentData);
 
 
 function teamBars(yrid, tmid, courtpart){
@@ -378,7 +381,7 @@ function teamBars(yrid, tmid, courtpart){
 
 	condensed.sort(function(a,b){if (a.FGM > b.FGM) {return -1;} else {return 1;}});
 
-	console.log(condensed);
+	//console.log(condensed);
 	//console.log(Array.from(condensed.keys()));
 
 	d3.selectAll(".vert_bar").remove();
@@ -410,31 +413,28 @@ function teamBars(yrid, tmid, courtpart){
 
 	svg.selectAll("qs")
 	    .data(condensed)
-	    .enter()
-		.append("rect")
+	    .join("rect")
 	  	.attr("y", function(d){return h-marg-y(d.FGA)})
-	  	.attr("x", function (d,i) { return x(i)} )
 	  	.attr("width", x.bandwidth()-5)
 	  	.attr("height", d => y(d.FGA))
 	  	.style('fill','#cbc3e3')
-	  	.style("stroke", "black");
+	  	.style("stroke", "black")
+	  	.attr("x", function (d,i) { return x(i)} );
 
 	svg.selectAll("qs2")
 	    .data(condensed)
-	    .enter()
-		.append("rect")
+	    .join("rect")
 	  	.attr("y", function(d){return h-marg-y(d.FGM)})
-	  	.attr("x", function (d,i) { return x(i)} )
 	  	.attr("width", x.bandwidth()-5)
 	  	.attr("height", d => y(d.FGM))
 	  	.style('fill','purple')
-	  	.style("stroke", "black");
+	  	.style("stroke", "black")
+	  	.attr("x", function (d,i) { return x(i)} );
 
 
 	svg.selectAll("textlabels2")
 	    .data(condensed)
-	    .enter()
-		.append("text")
+	    .join("text")
 		.attr("transform", function(d,i) {
 			var xText = x(i) + x.bandwidth()/2; 
 			var yText = h-marg;
@@ -445,7 +445,52 @@ function teamBars(yrid, tmid, courtpart){
 
 }
 
-teamBars('2010-11', 'all', 'allcourt')
+courtpart = 'allcourt';
+teamBars('2010-11', 'all', courtpart);
+
+function animateSeasons(){
+
+	var els = document.getElementsByClassName("chk");
+	for (var i = 0; i < els.length; i++) {
+		els[i].classList.remove('clicked');
+	}
+	document.getElementById("2010-11").classList.add('clicked');
+
+	var teamslist = [];
+	var els2 = document.getElementsByClassName("tm");
+	for (var i = 0; i < els2.length; i++) {
+		if (els2[i].checked) { teamslist.push(els2[i].id);}
+	}
+
+	szns = ['2010-11','2011-12','2012-13','2013-14','2014-15','2015-16','2016-17','2017-18','2018-19','2019-20'];
+
+	oneSeason(szns, 0,teamslist);
+}
+
+
+function oneSeason(szns, i, tmid){
+	document.getElementById("currentyr").innerText = szns[i];
+	var tmpdata = getData(szns[i],tmid);
+	setColors(tmpdata);
+	populateBar(tmpdata);
+	teamBars(szns[i],tmid,courtpart); //replace with custom d3 transitions? separate transition functions
+	console.log(szns[i]);
+	if (i+1<szns.length) {
+		document.getElementById(szns[i]).classList.remove("clicked");
+		document.getElementById(szns[i+1]).classList.add('clicked');
+		setTimeout(function(){oneSeason(szns,i+1,tmid)}, 500);
+	} else {
+
+		currentData = getData("2019-20",tmid);
+		var els = document.getElementsByClassName("chk");
+		for (var i = 0; i < els.length; i++) {
+			els[i].classList.remove('clicked');
+		}
+		document.getElementById("2019-20").classList.add('clicked');
+	}
+}
+
+document.getElementById("playanim").addEventListener('click',animateSeasons);
 
 
 }) //end of then function
