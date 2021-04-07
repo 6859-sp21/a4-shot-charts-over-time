@@ -20,17 +20,17 @@ rect {
 
 #maincourt {
 	position: absolute;
-	width:90%;
+	width:40%;
 	left:75px;
-	top:25vh;
+	top:40vh;
 }
 
 
 #hoop {
 	position: absolute;
-	width:35%;
-	left:9.5%;
-	top:15px;
+	left:22%;
+	top:45vh;
+	width:60px;
 }
 
 .clicked {
@@ -41,7 +41,7 @@ rect {
 #subgraphs{
 	display: block;
 	position: absolute;
-	top: 10vh;
+	top: 5vh;
 	left:60vw;
 }
 
@@ -49,7 +49,7 @@ rect {
 	display: block;
 	position: absolute;
 	top: 50vh;
-	left:50vw;
+	left:47vw;
 }
 
 </style>
@@ -84,24 +84,29 @@ rect {
 <input class="anim" type="button" id="playanim" value="Play">
 <div id="currentyr"></div>
 
+<div id="showfullcourt" style="background-color:pink;width: 5em;margin-top: 10px">Full court</div>
 
 <div id="maincourt">
 
-<svg version="1.1" viewBox="0.0 0.0 1660.0 1420.0" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<svg version="1.1" viewBox="0.0 0.0 800 600" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
 	<clipPath id="p.0"><path d="m0 0l960.0 0l0 720.0l-960.0 0l0 -720.0z" clip-rule="nonzero"/></clipPath>
 	<g clip-path="url(#p.0)">
 		<polygon id = "fullcourt" fill="#ffffff" fill-opacity="0.0" points="0.000,0.000 960.000,0.000 960.000,720.000 0.000,720.000" fill-rule="nonzero"/>
-		<polygon id = "abovethebreak" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="68.436,52.753 697.192,52.753 697.192,652.722 68.436,652.722" fill-rule="evenodd"/>
+		<polygon id = "abovethebreak" fill="#ffffff" stroke="#000000" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="butt" points="68.436,52.753 697.192,52.753 697.192,652.722 68.436,652.722" fill-rule="evenodd"/>
 		<!--<polygon id="leftside" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="69.861,52.753 109.798,52.753 109.798,230.958 69.861,230.958" fill-rule="evenodd"/>-->
 		<!--<polygon id="rightside" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="661.543,52.753 695.898,52.753 695.898,230.958 661.543,230.958" fill-rule="evenodd"/>-->
-		<polygon id = "midrange" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="661.543,52.753 661.543,234.533 661.543,234.533 661.543,416.312 109.795,416.312 109.795,234.533 109.795,52.753" fill-rule="evenodd"/>
-		<polygon id="paint" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="285.857,52.753 486.896,52.753 486.896,292.281 285.857,292.281" fill-rule="evenodd"/>
-		<polygon id="restrictedarea" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="443.419,52.753 443.419,102.659 443.419,152.564 327.923,152.564 327.923,102.659 327.923,52.753" fill-rule="evenodd"/>
+		<polygon id = "midrange" fill="#ffffff" stroke="#000000" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="butt" points="661.543,52.753 661.543,234.533 661.543,234.533 661.543,416.312 109.795,416.312 109.795,234.533 109.795,52.753" fill-rule="evenodd"/>
+		<polygon id="paint" fill="#ffffff" stroke="#000000" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="butt" points="285.857,52.753 486.896,52.753 486.896,292.281 285.857,292.281" fill-rule="evenodd"/>
+		<polygon id="restrictedarea" fill="#ffffff" stroke="#000000" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="butt" points="443.419,52.753 443.419,102.659 443.419,152.564 327.923,152.564 327.923,102.659 327.923,52.753" fill-rule="evenodd"/>
 		<!--<polygon id="backcourt" fill="#ffffff" stroke="#000000" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" points="70.286,573.150 695.042,573.150 695.042,652.189 70.286,652.189" fill-rule="evenodd"/>-->
 	</g>
 </svg>
 
 </div>
+
+
+<svg id="hoop" version="1.1" viewBox="0.0 0.0 100.0 100.0" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><clipPath id="p.0"><path d="m0 0l100.0 0l0 100.0l-100.0 0l0 -100.0z" clip-rule="nonzero"/></clipPath><g clip-path="url(#p.0)"><path fill="#000000" fill-opacity="0.0" d="m0 0l100.0 0l0 100.0l-100.0 0z" fill-rule="evenodd"/><path fill="#ff9900" d="m25.576118 70.446236l0 0c0 -13.480965 10.660557 -24.409447 23.811024 -24.409447l0 0c6.315075 0 12.371502 2.571701 16.836933 7.1493607c4.465439 4.5776596 6.9740906 10.786301 6.9740906 17.260086l0 0c0 13.480965 -10.660561 24.409454 -23.811024 24.409454l0 0c-13.150467 0 -23.811024 -10.92849 -23.811024 -24.409454z" fill-rule="evenodd"/><path stroke="#ffffff" stroke-width="1.0" stroke-linejoin="round" stroke-linecap="butt" d="m25.576118 70.446236l0 0c0 -13.480965 10.660557 -24.409447 23.811024 -24.409447l0 0c6.315075 0 12.371502 2.571701 16.836933 7.1493607c4.465439 4.5776596 6.9740906 10.786301 6.9740906 17.260086l0 0c0 13.480965 -10.660561 24.409454 -23.811024 24.409454l0 0c-13.150467 0 -23.811024 -10.92849 -23.811024 -24.409454z" fill-rule="evenodd"/><path fill="#000000" fill-opacity="0.0" d="m1.9427276 46.03679l94.92914 0" fill-rule="evenodd"/><path stroke="#ffffff" stroke-width="2.0" stroke-linejoin="round" stroke-linecap="butt" d="m1.9427276 46.03679l94.92914 0" fill-rule="evenodd"/><path fill="#000000" fill-opacity="0.0" d="m0 15.246717l98.80315 0l0 35.55906l-98.80315 0z" fill-rule="evenodd"/><path fill="#ffffff" d="m30.83957 37.04672l0 -9.546877l1.265625 0l0 3.921875l4.953125 0l0 -3.921875l1.265625 0l0 9.546877l-1.265625 0l0 -4.5l-4.953125 0l0 4.5l-1.265625 0zm9.203278 -4.640625q0 -2.375002 1.28125 -3.718752q1.28125 -1.34375 3.296875 -1.34375q1.3125 0 2.375 0.625q1.0625 0.625 1.609375 1.765625q0.5625 1.125 0.5625 2.562502q0 1.4375 -0.59375 2.59375q-0.578125 1.140625 -1.65625 1.734375q-1.0625 0.578125 -2.3125 0.578125q-1.34375 0 -2.40625 -0.640625q-1.0625 -0.65625 -1.609375 -1.78125q-0.546875 -1.125 -0.546875 -2.375zm1.3125 0.015625q0 1.71875 0.921875 2.71875q0.921875 0.984375 2.328125 0.984375q1.421875 0 2.34375 -1.0q0.921875 -1.0 0.921875 -2.84375q0 -1.1562519 -0.40625 -2.031252q-0.390625 -0.875 -1.15625 -1.34375q-0.75 -0.484375 -1.6875 -0.484375q-1.34375 0 -2.3125 0.921875q-0.953125 0.921875 -0.953125 3.078127zm9.05455 -0.015625q0 -2.375002 1.28125 -3.718752q1.28125 -1.34375 3.296875 -1.34375q1.3125 0 2.375 0.625q1.0625 0.625 1.609375 1.765625q0.5625 1.125 0.5625 2.562502q0 1.4375 -0.59375 2.59375q-0.578125 1.140625 -1.65625 1.734375q-1.0625 0.578125 -2.3125 0.578125q-1.34375 0 -2.40625 -0.640625q-1.0625 -0.65625 -1.609375 -1.78125q-0.546875 -1.125 -0.546875 -2.375zm1.3125 0.015625q0 1.71875 0.921875 2.71875q0.921875 0.984375 2.328125 0.984375q1.421875 0 2.34375 -1.0q0.921875 -1.0 0.921875 -2.84375q0 -1.1562519 -0.40625 -2.031252q-0.390625 -0.875 -1.15625 -1.34375q-0.75 -0.484375 -1.6875 -0.484375q-1.34375 0 -2.3125 0.921875q-0.953125 0.921875 -0.953125 3.078127zm9.445175 4.625l0 -9.546877l3.59375 0q0.953125 0 1.453125 0.09375q0.703125 0.125 1.171875 0.453125q0.484375 0.328125 0.765625 0.921875q0.296875 0.59375 0.296875 1.296875q0 1.21875 -0.78125 2.062502q-0.765625 0.84375 -2.796875 0.84375l-2.4375 0l0 3.875l-1.265625 0zm1.265625 -5.0l2.453125 0q1.234375 0 1.75 -0.4531269q0.515625 -0.46875 0.515625 -1.28125q0 -0.609375 -0.3125 -1.03125q-0.296875 -0.421875 -0.796875 -0.5625q-0.3125 -0.09375 -1.171875 -0.09375l-2.4375 0l0 3.421877z" fill-rule="nonzero"/></g></svg>
+
 
 
 <div id="subgraphs"></div>
@@ -178,6 +183,12 @@ for (var i = 0; i < elems.length; i++) {
 }
 
 
+var regions = ['abovethebreak','midrange','paint','restrictedarea','showfullcourt'];
+for (var i = 0; i < regions.length; i++) {
+	document.getElementById(regions[i]).addEventListener('click', checkboxClick);
+}
+
+
 function getData(season, team){
 	if (team == 'all'){var sznvals = dt1.filter(function(d){return (season == (d.Season))});}
 	else {var sznvals = dt1.filter(function(d){return (season == (d.Season)) && (team.includes(d.TEAM_ID));});}
@@ -225,7 +236,24 @@ function checkboxClick(arg1){
 		document.getElementById(yrid).classList.add('clicked');
 		document.getElementById('currentyr').innerText = yrid;
 
-	} else {
+		var regions = ['abovethebreak','midrange','paint','restrictedarea'];
+
+		courtpart='allcourt';
+		for (var i = 0; i < regions.length; i++) {
+			if (document.getElementById(regions[i]).getAttribute("stroke") == "#39FF14"){
+				if (regions[i]=="abovethebreak") {
+					courtpart ='threepointer'
+				} else if (regions[i]=="midrange") {
+					courtpart ='Mid-Range'
+				} else if (regions[i]=="paint") {
+					courtpart ='In The Paint (Non-RA)'
+				} else if (regions[i]=="restrictedarea") {
+					courtpart ='Restricted Area'
+				}
+			}
+		}
+
+	} else if (box.type == "checkbox") {
 		var els = document.getElementsByClassName("chk");
 		for (var i = 0; i < els.length; i++) {
 			if (els[i].classList.contains('clicked')) {yrid = els[i].id;}
@@ -239,6 +267,54 @@ function checkboxClick(arg1){
 			box.checked = true;
 			}
 		}
+
+		var regions = ['abovethebreak','midrange','paint','restrictedarea'];
+
+		courtpart='allcourt';
+		for (var i = 0; i < regions.length; i++) {
+			if (document.getElementById(regions[i]).getAttribute("stroke") == "#39FF14"){
+				if (regions[i]=="abovethebreak") {
+					courtpart ='threepointer'
+				} else if (regions[i]=="midrange") {
+					courtpart ='Mid-Range'
+				} else if (regions[i]=="paint") {
+					courtpart ='In The Paint (Non-RA)'
+				} else if (regions[i]=="restrictedarea") {
+					courtpart ='Restricted Area'
+				}
+			}
+		}
+
+	} else {
+		var els = document.getElementsByClassName("chk");
+		for (var i = 0; i < els.length; i++) {
+			if (els[i].classList.contains('clicked')) {yrid = els[i].id;}
+		}
+
+		if (arg1.target.id == "showfullcourt"){
+			courtpart='allcourt';
+		} else if (arg1.target.id=="abovethebreak") {
+			courtpart ='threepointer'
+		} else if (arg1.target.id=="midrange") {
+			courtpart ='Mid-Range'
+		} else if (arg1.target.id=="paint") {
+			courtpart ='In The Paint (Non-RA)'
+		} else if (arg1.target.id=="restrictedarea") {
+			courtpart ='Restricted Area'
+		}
+
+		var regions = ['abovethebreak','midrange','paint','restrictedarea'];
+
+		for (var i = 0; i < regions.length; i++) {
+			if (arg1.target.id == regions[i]){
+				document.getElementById(regions[i]).setAttribute("stroke","#39FF14");
+			} else {
+				document.getElementById(regions[i]).setAttribute("stroke","#000000");
+			}
+			
+		}
+
+
 	}
 	var els2 = document.getElementsByClassName("tm");
 	tmid = [];
@@ -262,7 +338,7 @@ function checkboxClick(arg1){
 
 	setColors(currentData);
 	populateBar(currentData);
-	teamBars(yrid, tmid,'allcourt');
+	teamBars(yrid, tmid,courtpart);
 };
 
 var elements = document.getElementsByClassName("chk");
@@ -285,7 +361,7 @@ function populateBar(currentData){
 
 	var marg = 20;
 
-	var w = 600;
+	var w = 500;
 	var h = 300;
 	var svg = d3.select("#subgraphs")
 	             .append("svg")
@@ -388,8 +464,8 @@ function teamBars(yrid, tmid, courtpart){
 
 	var marg = 20;
 
-	var w = 800;
-	var h = 400;
+	var w = 750;
+	var h = 350;
 
 	var svg = d3.select("#teamgraphs")
 	             .append("svg")
@@ -398,7 +474,7 @@ function teamBars(yrid, tmid, courtpart){
 	             .attr("class","vert_bar");
 
 	var y = d3.scaleLinear()
-	    .domain([0, 8000])
+	    .domain([-500, d3.max(condensed,d=>d.FGA)])
 	    .range([marg, (h-marg)]);
 	//console.log([y(3000), y(6000)]);
 
