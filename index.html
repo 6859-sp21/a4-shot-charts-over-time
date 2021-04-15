@@ -20,16 +20,17 @@ rect {
 
 #maincourt {
 	position: absolute;
-	width:40%;
-	left:75px;
-	top:40vh;
+	left:300px;
+	top:-30px;
+	width: 700px;
+	height: 500px;
 }
 
 
 #hoop {
 	position: absolute;
-	left:22%;
-	top:45vh;
+	left:610px;
+	top:25px;
 	width:60px;
 }
 
@@ -48,9 +49,14 @@ rect {
 #teamgraphs{
 	display: block;
 	position: absolute;
-	top: 50vh;
-	left:47vw;
+	top: 500px;
+	left:150px;
 }
+
+.chk{
+	margin: 2px;
+}
+
 
 </style>
 
@@ -58,9 +64,11 @@ rect {
 
 <body>
 
+<h1>NBA Shot Charts <br/> Over Time</h1>
+
 <h2>Season</h2>
 
-<div id="years">
+<div id="years" style="width:300px">
 <input class="chk clicked" type="button" id="2010-11" value="2010-11">
 <input class="chk" type="button" id="2011-12" value="2011-12">
 <input class="chk" type="button" id="2012-13" value="2012-13">
@@ -75,8 +83,9 @@ rect {
 <!--- none, all buttons too --->
 <!--- play animation --->
 
+
+<div id="teams" style="height:95vh;position:absolute;left: 1300px;top:5px;overflow-y: scroll;">
 <h2>Team</h2>
-<div id="teams" style="width:50vw">
 
 </div>
 
@@ -84,7 +93,10 @@ rect {
 <input class="anim" type="button" id="playanim" value="Play">
 <div id="currentyr"></div>
 
-<div id="showfullcourt" style="background-color:pink;width: 5em;margin-top: 10px">Full court</div>
+<div id="showfullcourt" style="background-color:#ededed;width: 7em;margin-top: 5px;border: thin black;border-style: solid;padding: 2px;">Show full court</div>
+
+<div style="margin-top:20px">Scroll down for more information</div>
+
 
 <div id="maincourt">
 
@@ -109,10 +121,27 @@ rect {
 
 
 
-<div id="subgraphs"></div>
+<div id="subgraphs" style="display:none;position: absolute;"></div>
 
 <div id="teamgraphs"></div>
 
+
+<div style="background-color: black;width:2px;height: 220px;position: absolute;top: 495px;left: 150px;"></div>
+
+
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 495px;left: 150px;"></div>
+
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 550px;left: 150px;"></div>
+
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 600px;left: 150px;"></div>
+
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 655px;left: 150px;"></div>
+
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 705px;left: 150px;"></div>
+
+<div style="position: absolute;top: 695px;left: 100px;">0 shots</div>
+<div style="position: absolute;top: 592px;left: 75px;">4000 shots</div>
+<div style="position: absolute;top: 490px;left: 75px;">8000 shots</div>
 
 <script>
 
@@ -161,8 +190,12 @@ for (var i = 0; i < oneyear.length; i++) {
 	var lab = document.createElement("label");
 	lab.innerText = oneyear[i].TEAM_NAME;
 	lab.setAttribute("for",oneyear[i].TEAM_NAME);
+	lab.classList.add("tmlab");
 	document.getElementById("teams").appendChild(btn);
 	document.getElementById("teams").appendChild(lab);
+	var linebreak = document.createElement("div");
+	linebreak.innerHTML = "<br/>";
+	document.getElementById("teams").appendChild(linebreak);
 }
 
 var btn = document.createElement("input");
@@ -172,6 +205,7 @@ btn.classList.add("tm");
 var lab = document.createElement("label");
 lab.innerText = "All";
 lab.setAttribute("for","all");
+lab.classList.add("tmlab");
 document.getElementById("teams").appendChild(btn);
 document.getElementById("teams").appendChild(lab);
 document.getElementById("all").checked = true;
@@ -209,8 +243,8 @@ function getData(season, team){
 	return results;
 };
 
-labelmap = {"restrictedarea":"1. Restricted Area", "paint":"2. Paint", "midrange":"3. Midrange", "abovethebreak":"4. 3-Pointer",
-"restrictedarea_made":"1. Restricted Area", "paint_made":"2. Paint", "midrange_made":"3. Midrange", "abovethebreak_made":"4. 3-Pointer"};
+labelmap = {"restrictedarea":"Restricted Area", "paint":"Paint", "midrange":"Midrange", "abovethebreak":"3-Pointer",
+"restrictedarea_made":"Restricted Area", "paint_made":"Paint", "midrange_made":"Midrange", "abovethebreak_made":"3-Pointer"};
 
 
 function setColors(results){
@@ -308,8 +342,11 @@ function checkboxClick(arg1){
 		for (var i = 0; i < regions.length; i++) {
 			if (arg1.target.id == regions[i]){
 				document.getElementById(regions[i]).setAttribute("stroke","#39FF14");
+				//document.getElementById(labelmap[regions[i]]+" Label").setAttribute('fill', '#39FF14');
+				//console.log(document.getElementById(labelmap[regions[i]]+" Label"));
 			} else {
 				document.getElementById(regions[i]).setAttribute("stroke","#000000");
+				//document.getElementById(labelmap[regions[i]]+" Label").setAttribute('fill', '#000000');
 			}
 			
 		}
@@ -322,8 +359,8 @@ function checkboxClick(arg1){
 		if (els2[i].checked) { tmid.push(els2[i].id);}
 	}
 
-	console.log(tmid);
-	console.log(yrid);
+	//console.log(tmid);
+	//console.log(yrid);
 	var res = getData(yrid, tmid); 
 
 	//console.log("subtracting");
@@ -337,7 +374,7 @@ function checkboxClick(arg1){
 	//console.log(currentData);
 
 	setColors(currentData);
-	populateBar(currentData);
+	populateBar(currentData, courtpart);
 	teamBars(yrid, tmid,courtpart);
 };
 
@@ -356,31 +393,43 @@ setColors(currentData);
 
 
 
-function populateBar(currentData){
+function populateBar(currentData, courtpart){
+
+	console.log(courtpart);
+	if (courtpart=="allcourt") {elem = "xx"}
+	else if (courtpart=="threepointer") {elem = "3-Pointer"}
+	else if (courtpart=="In The Paint (Non-RA)") {elem = "Paint"}
+	else if (courtpart=="Restricted Area") {elem = "Restricted Area"}
+	else if (courtpart=="Mid-Range") {elem = "Midrange"};
+
+
 	d3.selectAll(".horiz_bar").remove();
 
 	var marg = 20;
 
-	var w = 500;
-	var h = 300;
-	var svg = d3.select("#subgraphs")
+	var w = 300;
+	var h = 800;
+	var svg = d3.select("body")
 	             .append("svg")
 	             .attr("width", w)
 	             .attr("height", h)
-	             .attr("class","horiz_bar");
+	             .attr("class","horiz_bar")
+	             .style("position","absolute")
+	             .style("left",860)
+	             .style("top",90);
 
-	var x = d3.scaleLinear()
-	    .domain([0, Math.max(currentData.restrictedarea, currentData.abovethebreak, currentData.paint, currentData.midrange)])
-	    .range([ marg, (w-marg)]);
+	//var x = d3.scaleLinear()
+	    // .domain([0, Math.max(currentData.restrictedarea, currentData.abovethebreak, currentData.paint, currentData.midrange)])
+	    // .range([ marg, (w-marg)]);
 	//console.log(Math.max(currentData.restrictedarea, currentData.abovethebreak, currentData.paint, currentData.midrange));
 
-	var y = d3.scaleBand()
-	  .domain([0,1,2,3])
-	  .range([h-marg, marg]);
+	//var y = d3.scaleBand()
+	  // .domain([0,1,2,3])
+	  // .range([h-marg, marg]);
 
 
-	svg.selectAll("rect").remove();
-	svg.selectAll("text").remove();
+	//svg.selectAll("rect").remove();
+	//svg.selectAll("text").remove();
 
 	var newdata_a = [];
 	var newdata_m = [];
@@ -398,37 +447,49 @@ function populateBar(currentData){
 	//console.log(newdata_a);
 	//console.log(newdata_m);
 
-	svg.selectAll("gdot")
-	    .data(newdata_a)
-	    .join("rect")
-	  	.attr("x", x(0))
-	  	.attr("y", function (d,i) { return y(i)} )
-	  	.attr("height", y.bandwidth())
-	  	.style('fill','#cbc3e3')
-	  	.attr("width", d => x(d.value))
-	  	.style("stroke", "black");
+	// svg.selectAll("gdot")
+	//     .data(newdata_a)
+	//     .join("rect")
+	//   	.attr("x", x(0))
+	//   	.attr("y", function (d,i) { return y(i)} )
+	//   	.attr("height", y.bandwidth())
+	//   	.style('fill','#cbc3e3')
+	//   	.attr("width", d => x(d.value))
+	//   	.style("stroke", "black");
 
-	svg.selectAll("gdot2")
-	    .data(newdata_m)
-	    .join("rect")
-	  	.attr("x", x(0))
-	  	.attr("y", function (d,i) { return y(i)} )
-	  	.attr("height", y.bandwidth())
-	  	.style('fill','purple')
-	  	.attr("width", d => x(d.value))
-	  	.style("stroke", "black");
+	// svg.selectAll("gdot2")
+	//     .data(newdata_m)
+	//     .join("rect")
+	//   	.attr("x", x(0))
+	//   	.attr("y", function (d,i) { return y(i)} )
+	//   	.attr("height", y.bandwidth())
+	//   	.style('fill','purple')
+	//   	.attr("width", d => x(d.value))
+	//   	.style("stroke", "black");
 
 
-	svg.selectAll("textlabels")
-	.data(newdata_a)
-	.join("text")
-	.attr("x",x(0))
-	.attr("y",(d,i)=>y(i)+y.bandwidth()/2)
-	.text(d=>d.label)
-	.style("fill","white");
+	// svg.selectAll("textlabels")
+	// .data(newdata_a)
+	// .join("text")
+	// .attr("x",x(0))
+	// .attr("y",(d,i)=>y(i)+y.bandwidth()/2)
+	// .text(d=>d.label)
+	// .style("fill","white");
+
+
+
+	svg.selectAll(".textlab1").data(newdata_a).join("text")
+	.attr("x",w-marg*12).attr("y",(d,i)=>15+i*110)
+	.attr("id",d=>d.label+" Label")
+	.text((d,i)=>(d.label + ": " + Math.round(newdata_m[i].value/d.value*100) + "% Accuracy"))
+	.attr('fill',function(d){if(d.label==elem){return '#1DB700'} else {return '#000000'}});
+
+	//console.log(svg.select(".textlab1"));
+
 }
 
-populateBar(currentData);
+
+populateBar(currentData,'allcourt');
 
 
 function teamBars(yrid, tmid, courtpart){
@@ -464,19 +525,20 @@ function teamBars(yrid, tmid, courtpart){
 
 	var marg = 20;
 
-	var w = 750;
-	var h = 350;
+	var w = 1000;
+	var h = 230;
 
 	var svg = d3.select("#teamgraphs")
 	             .append("svg")
 	             .attr("width", w)
 	             .attr("height", h)
 	             .attr("class","vert_bar");
+	             //.style("background-color","gray");
 
 	var y = d3.scaleLinear()
-	    .domain([-500, d3.max(condensed,d=>d.FGA)])
+	    .domain([0, 8000])
 	    .range([marg, (h-marg)]);
-	//console.log([y(3000), y(6000)]);
+	//console.log(d3.max(condensed,d=>d.FGA));
 
 	var x = d3.scaleBand()
 	  .domain(Array.from(condensed.keys()))
@@ -493,8 +555,8 @@ function teamBars(yrid, tmid, courtpart){
 	  	.attr("y", function(d){return h-marg-y(d.FGA)})
 	  	.attr("width", x.bandwidth()-5)
 	  	.attr("height", d => y(d.FGA))
-	  	.style('fill','#cbc3e3')
-	  	.style("stroke", "black")
+	  	.style('fill','#ededed')
+	  	//.style("stroke", "black")
 	  	.attr("x", function (d,i) { return x(i)} );
 
 	svg.selectAll("qs2")
@@ -503,8 +565,8 @@ function teamBars(yrid, tmid, courtpart){
 	  	.attr("y", function(d){return h-marg-y(d.FGM)})
 	  	.attr("width", x.bandwidth()-5)
 	  	.attr("height", d => y(d.FGM))
-	  	.style('fill','purple')
-	  	.style("stroke", "black")
+	  	.style('fill','#aed581')
+	  	//.style("stroke", "black")
 	  	.attr("x", function (d,i) { return x(i)} );
 
 
@@ -517,7 +579,7 @@ function teamBars(yrid, tmid, courtpart){
 			return "translate(" + xText + "," + yText + ") rotate(270)";
 		})
 	  	.text(d => d.team)
-	  	.style('fill','white');
+	  	.style('fill','black');
 
 }
 
@@ -572,6 +634,12 @@ document.getElementById("playanim").addEventListener('click',animateSeasons);
 }) //end of then function
 
 </script>
+
+<div style="position:absolute;top:750px">
+<h2>About This Visualization</h2>
+<h2>Getting Started</h2>
+<h2>Design Choices and Reflection</h2>
+</div>
 
 </body>
 </html>
