@@ -68,6 +68,13 @@ rect {
     pointer-events: none;	
 }
 
+.colorleg{
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	top: 10px;
+}
+
 
 </style>
 
@@ -79,7 +86,7 @@ rect {
 
 <h2 style="margin-bottom:0px;"> Intro </h2>
 <div style="width:400px">
-	This visualization has a heatmap of shot volumes from different parts of a basketball court (in purple) as well as a bar plot of shots made and attempted broken out by NBA team (hover over bars for detailed numbers).
+	This visualization has a heatmap of shot volumes from different parts of a basketball court (in purple) as well as a bar plot of shots made and missed broken out by NBA team (hover over bars for detailed numbers).
 	<ul>
 		<li>Filter by season with the buttons below</li>
 		<li>Filter by team with the checkboxes on the right</li>
@@ -122,7 +129,14 @@ rect {
 
 <div id="showfullcourt" style="background-color:#ededed;width: 7em;margin-top: 30px;border: thin black;border-style: solid;padding: 2px;">Show full court</div>
 
-
+<div id="leg1" class="colorleg" style="left: 1050px;"></div>
+<div id="leg2" class="colorleg" style="left: 1070px;"></div>
+<div id="leg3" class="colorleg" style="left: 1090px;"></div>
+<div id="leg4" class="colorleg" style="left: 1110px;"></div>
+<div id="leg5" class="colorleg" style="left: 1130px;"></div>
+<div id="leg6" class="colorleg" style="left: 1150px;"></div>
+<div style="font-size: 0.7em;position: absolute;top: 30px;left: 1032px">fewer shots</div>
+<div style="font-size: 0.7em;position: absolute;top: 30px;left: 1132px">more shots</div>
 
 
 <div id="maincourt">
@@ -172,7 +186,7 @@ rect {
 
 <div style="position: absolute;top: 740px;left: 610px;padding: 2px;">Legend:</div>
 <div style="position: absolute;top: 740px;left: 680px;background-color:#aed581;padding: 2px;">Shots made</div>
-<div style="position: absolute;top: 740px;left: 780px;background-color:lightgrey;padding: 2px;">Shots attempted</div>
+<div style="position: absolute;top: 740px;left: 780px;background-color:lightgrey;padding: 2px;">Shots missed</div>
 
 <script>
 
@@ -257,6 +271,14 @@ for (var i = 0; i < regions.length; i++) {
 	document.getElementById(regions[i]).addEventListener('click', checkboxClick);
 }
 
+
+var colorscaleleg = d3.scaleDiverging(d3.interpolatePurples)
+		.domain([100,4000,8000]);
+
+var colorlegs = document.getElementsByClassName("colorleg");
+for (var i = 0; i < colorlegs.length; i++) {
+	colorlegs[i].style.backgroundColor = colorscaleleg(1300*(i+1));
+}
 
 function getData(season, team){
 	if (team == 'all'){var sznvals = dt1.filter(function(d){return (season == (d.Season))});}
@@ -603,7 +625,7 @@ function teamBars(yrid, tmid, courtpart){
             divtip.transition()		
                 .duration(100)		
                 .style("opacity", .9);		
-            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Shots attempted: "+d.FGA)	
+            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Total shots attempted: "+d.FGA)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
             })					
@@ -625,7 +647,7 @@ function teamBars(yrid, tmid, courtpart){
             divtip.transition()		
                 .duration(100)		
                 .style("opacity", .9);		
-            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Shots attempted: "+d.FGA)	
+            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Total shots attempted: "+d.FGA)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
             })					
@@ -650,7 +672,7 @@ function teamBars(yrid, tmid, courtpart){
             divtip.transition()		
                 .duration(100)		
                 .style("opacity", .9);		
-            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Shots attempted: "+d.FGA)	
+            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Total shots attempted: "+d.FGA)	
                 .style("left", (d3.event.pageX) + "px")		
                 .style("top", (d3.event.pageY - 28) + "px");	
             })					
@@ -724,22 +746,34 @@ document.getElementById("playanim").addEventListener('click',animateSeasons);
 		<li>Has accuracy changed a lot from 2010 to 2020? Is that surprising?</li>
 		<li>The Houston Rockets are a team that is well-known for embracing the three-point shot- how do their shot charts over time compare to the league as a whole?</li>
 		<li>The Golden State Warriors are another team that is often cited as an analytics and three-pointer heavy team. They won the NBA championship at the end of the 2017-18 season. What is interesting about that season in terms of the Warriors' ranking in a certain area of the court?</li>
-		<li>Looking at the top teams who made the most shots in each part of the court can help us to understand different teams' playing styles. Which teams are consistently at the front of the bar graph for each section of the court? For those who are familiar with these teams, does this align with your knowledge of their playing styles?</li>
+		<li>Looking at the top teams who made the most shots in each part of the court can help us to understand different teams' playing styles. Which teams are consistently at the front of the bar graph over the past few years for each section of the court? For those who are familiar with these teams, does this align with your knowledge of their playing styles?</li>
 		<li>Most teams experienced an "inflection point" where they shifted their shots from 2-point land to 3-point land, with some experiencing this earlier than others. Where is this inflection for your favorite team? For our hometown <span style="color:green;">Boston Celtics🍀</span>, I would say this started in 2015-16 with the biggest change in 2016-17.</li>
 	</ul>
 </div>
 <h2 id="design-choices">Design Choices and Reflection</h2>
 <div style="width:1200px;margin-bottom: 100px;">
 <p>
-All data was accessed from the official NBA.com statistics databases online, using <a href="https://www.nba.com/stats/teams/shooting/?Season=2010-11&SeasonType=Regular%20Season&DistanceRange=By%20Zone&PerMode=Totals&sort=Above%20the%20Break%203%20FG%20PCT&dir=1" target=" blank">a search like this one</a> for the 2010-11 season and repeating for all seasons. Many basketball stats -focused websites produce shot charts but I was mostly inspired by <a href="https://www.basketball-reference.com/players/l/lowryky01/shooting/2017" target=" blank">Basketball-Reference.com</a> although what they have is not quite the same as this aggregated team-level visualization.
+All data was accessed from the official <a href="https://www.nba.com/stats/" target=" blank">NBA.com statistics</a> databases online, using <a href="https://www.nba.com/stats/teams/shooting/?Season=2010-11&SeasonType=Regular%20Season&DistanceRange=By%20Zone&PerMode=Totals&sort=Above%20the%20Break%203%20FG%20PCT&dir=1" target=" blank">a search like this one</a> for the 2010-11 season and repeating for all seasons. Many basketball stats -focused websites produce shot charts but I was mostly inspired by <a href="https://www.basketball-reference.com/players/l/lowryky01/shooting/2017" target=" blank">Basketball-Reference.com</a> although what they have is not quite the same as this aggregated team-level visualization.
 </p>
 
 <p>
 A rationale for your design decisions. How did you choose your particular visual encodings, interaction, and animation techniques? What alternatives did you consider and how did you arrive at your ultimate choices? Heatmap, bars, tooltips, animation, filtering
+I used a few different visual encodings for my two main plots. I chose a heatmap-type visualization for the court because that seemed natural to me. This kind of visual would allow me to preserve the image of the court and the spatial relationships between the hoop and the different parts of the court. The primary encoding is the use of darker purple to mean more shots and lighter purple for fewer shots. I considered using a diverging color scale, with an example being red colors meaning more shots and blue colors meaning fewer shots. However, I think a diverging color scale would look better when there are more discrete colors visible in a plot, since the viewer can more easily make sense of the scale. Having only four discrete colors made the diverging color scale look a little more confusing, so I went with a more intuitive sequential scale. 
+</p>
+<p>
+I chose a stacked vertical bar chart for the team comparison plot to facilitate comparison of bar heights between teams. The plot has a little twist where the bars are sorted by the shots made bar segment and not the total height of the bar, which I thought would make it easy to see which teams actually score the most and don't just attempt the most shots. I considered a horizontal bar plot to make reading the team names easier but chose not to go with it due to space considerations. I also thought the team filtering and added tooltip that appears when hovering over a bar would be a good way to know team names for people who don't want to read vertically. I chose the color green for shots made and gray for shots missed because I think these colors are naturally understandable (green = good thing, gray = neutral or bad).
 </p>
 
 <p>
-An overview of your development process. Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?
+The interaction techniques used are the tooltip that appears when hovering over the team bar plot as well as the viewer's ability to interactively filter by season, team, and part of the court. I initially was not going to add the tooltip to keep the visualization high-level but realized from feedback that some viewers are actually curious about the raw numbers. I did find that adding the tooltip does add some credibility to the visualizations and confirms they are based on real data. I tried to keep the interactive filtering straightforward, with buttons for the seasons and checkboxes for the teams to make it clear that viewers can select multiple teams at a time. I also considered a dropdown menu for team filtering to reduce the space taken up, but selecting multiple items from a dropdown is not as intuitive as selecting multiple checkboxes. For filtering by court area, I realized that it was not initially obvious to the viewer that they could click on different parts of the court, so I tried to include instructions in the intro to help the viewers understand all the possible interactions.
+</p>
+
+<p>
+The main animation in this visualization is the evolution over time that plays when a viewer clicks the "Play Animation" button. I added this because I thought seeing different parts of the court transition between different colors automatically over time would provide a smoother experience for the user to understand the shot chart trends rather than having to click each season themselves. The animation was initially much faster to keep the focus on the changing colors on the court, but after getting feedback I slowed the animation down so viewers could take their time looking at each stage. 
+</p>
+
+<p>
+I spent roughly 30 hours on this application. The bulk of the time was spent just on making sure the correct data was appearing in the plots when a filter was applied. Setting up all of the interactive filtering probably took up the first 20 hours. From there, adding the tooltips and the animation was straightforward and adding legends, scales, and extra information.
 </p>
 
 <p>
