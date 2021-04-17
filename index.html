@@ -20,7 +20,7 @@ rect {
 
 #maincourt {
 	position: absolute;
-	left:300px;
+	left:400px;
 	top:-30px;
 	width: 700px;
 	height: 500px;
@@ -29,7 +29,7 @@ rect {
 
 #hoop {
 	position: absolute;
-	left:610px;
+	left:710px;
 	top:25px;
 	width:60px;
 }
@@ -50,11 +50,22 @@ rect {
 	display: block;
 	position: absolute;
 	top: 500px;
-	left:150px;
+	left:250px;
 }
 
 .chk{
 	margin: 2px;
+}
+
+#tooltip{
+    position: absolute;			
+    text-align: center;			
+					
+    padding: 2px;						
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;	
 }
 
 
@@ -66,9 +77,22 @@ rect {
 
 <h1>NBA Shot Charts <br/> Over Time</h1>
 
-<h2>Season</h2>
+<h2 style="margin-bottom:0px;"> Intro </h2>
+<div style="width:400px">
+	This visualization has a heatmap of shot volumes from different parts of a basketball court (in purple) as well as a bar plot of shots made and attempted broken out by NBA team (hover over bars for detailed numbers).
+	<ul>
+		<li>Filter by season with the buttons below</li>
+		<li>Filter by team with the checkboxes on the right</li>
+		<li>Click different parts of the court to filter by court region; click the "Show full court" button to clear</li>
+		<li>Play an animation over time of your current filter view with the "Play Animation" button</li>
+	</ul>
+	Don't know where to start? <a href="#getting-started">Getting Started</a><br/>
+	Design choices writeup and sources: <a href="#design-choices">here</a>
+</div>
 
-<div id="years" style="width:300px">
+<h2 style="margin-bottom:0px;margin-top: 15px;">Filter by Season</h2>
+
+<div id="years" style="width:400px">
 <input class="chk clicked" type="button" id="2010-11" value="2010-11">
 <input class="chk" type="button" id="2011-12" value="2011-12">
 <input class="chk" type="button" id="2012-13" value="2012-13">
@@ -79,23 +103,26 @@ rect {
 <input class="chk" type="button" id="2017-18" value="2017-18">
 <input class="chk" type="button" id="2018-19" value="2018-19">
 <input class="chk" type="button" id="2019-20" value="2019-20">
+
+<div style="width:150px;margin-top: 10px;font-size: 0.75em">Notes: the 2011-12 NBA season was shortened by a <a href="https://en.wikipedia.org/wiki/2011_NBA_lockout" target=" blank">lockout</a>; the 2019-20 season was shortened by the <a href="https://en.wikipedia.org/wiki/2019%E2%80%9320_NBA_season" target=" blank">COVID-19 pandemic</a> </div>
+
 </div>
+
 <!--- none, all buttons too --->
 <!--- play animation --->
 
 
 <div id="teams" style="height:95vh;position:absolute;left: 1300px;top:5px;overflow-y: scroll;">
-<h2>Team</h2>
+<h2>Filter by Team</h2>
 
 </div>
 
-<h2>Animate</h2>
-<input class="anim" type="button" id="playanim" value="Play">
-<div id="currentyr"></div>
+<input class="anim" type="button" id="playanim" value="Play Animation" style="margin-top: 60px;">
+<div id="currentyr" style="margin-top: 0px;"></div>
 
-<div id="showfullcourt" style="background-color:#ededed;width: 7em;margin-top: 5px;border: thin black;border-style: solid;padding: 2px;">Show full court</div>
+<div id="showfullcourt" style="background-color:#ededed;width: 7em;margin-top: 30px;border: thin black;border-style: solid;padding: 2px;">Show full court</div>
 
-<div style="margin-top:20px">Scroll down for more information</div>
+
 
 
 <div id="maincourt">
@@ -126,22 +153,26 @@ rect {
 <div id="teamgraphs"></div>
 
 
-<div style="background-color: black;width:2px;height: 220px;position: absolute;top: 495px;left: 150px;"></div>
+<div style="background-color: black;width:2px;height: 220px;position: absolute;top: 495px;left: 250px;"></div>
 
 
-<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 495px;left: 150px;"></div>
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 495px;left: 250px;"></div>
 
-<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 550px;left: 150px;"></div>
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 550px;left: 250px;"></div>
 
-<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 600px;left: 150px;"></div>
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 600px;left: 250px;"></div>
 
-<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 655px;left: 150px;"></div>
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 655px;left: 250px;"></div>
 
-<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 705px;left: 150px;"></div>
+<div style="background-color: black;width:8px;height: 2px;position: absolute;top: 705px;left: 250px;"></div>
 
-<div style="position: absolute;top: 695px;left: 100px;">0 shots</div>
-<div style="position: absolute;top: 592px;left: 75px;">4000 shots</div>
-<div style="position: absolute;top: 490px;left: 75px;">8000 shots</div>
+<div style="position: absolute;top: 695px;left: 200px;">0 shots</div>
+<div style="position: absolute;top: 592px;left: 175px;">4000 shots</div>
+<div style="position: absolute;top: 490px;left: 175px;">8000 shots</div>
+
+<div style="position: absolute;top: 740px;left: 610px;padding: 2px;">Legend:</div>
+<div style="position: absolute;top: 740px;left: 680px;background-color:#aed581;padding: 2px;">Shots made</div>
+<div style="position: absolute;top: 740px;left: 780px;background-color:lightgrey;padding: 2px;">Shots attempted</div>
 
 <script>
 
@@ -182,6 +213,22 @@ console.log(dt1);
 var oneyear = dt1.filter(d=>d.Season == "2019-20");
 oneyear.sort(function(a,b){return a.TEAM_ID < b.TEAM_ID;});
 
+
+var btn = document.createElement("input");
+btn.setAttribute("type","checkbox");
+btn.setAttribute("id","all");
+btn.classList.add("tm");
+var lab = document.createElement("label");
+lab.innerText = "All";
+lab.setAttribute("for","all");
+lab.classList.add("tmlab");
+document.getElementById("teams").appendChild(btn);
+document.getElementById("teams").appendChild(lab);
+document.getElementById("all").checked = true;
+var linebreak = document.createElement("div");
+linebreak.innerHTML = "<br/>";
+document.getElementById("teams").appendChild(linebreak);
+
 for (var i = 0; i < oneyear.length; i++) {
 	var btn = document.createElement("input");
 	btn.setAttribute("type","checkbox");
@@ -197,18 +244,6 @@ for (var i = 0; i < oneyear.length; i++) {
 	linebreak.innerHTML = "<br/>";
 	document.getElementById("teams").appendChild(linebreak);
 }
-
-var btn = document.createElement("input");
-btn.setAttribute("type","checkbox");
-btn.setAttribute("id","all");
-btn.classList.add("tm");
-var lab = document.createElement("label");
-lab.innerText = "All";
-lab.setAttribute("for","all");
-lab.classList.add("tmlab");
-document.getElementById("teams").appendChild(btn);
-document.getElementById("teams").appendChild(lab);
-document.getElementById("all").checked = true;
 
 var elems = document.getElementsByClassName("tm");
 
@@ -408,14 +443,14 @@ function populateBar(currentData, courtpart){
 	var marg = 20;
 
 	var w = 300;
-	var h = 800;
+	var h = 400;
 	var svg = d3.select("body")
 	             .append("svg")
 	             .attr("width", w)
 	             .attr("height", h)
 	             .attr("class","horiz_bar")
 	             .style("position","absolute")
-	             .style("left",860)
+	             .style("left",960)
 	             .style("top",90);
 
 	//var x = d3.scaleLinear()
@@ -492,6 +527,11 @@ function populateBar(currentData, courtpart){
 populateBar(currentData,'allcourt');
 
 
+divtip = d3.select("body").append("div")	
+    .attr("id", "tooltip")				
+    .style("opacity", 0);
+
+
 function teamBars(yrid, tmid, courtpart){
 	if (tmid == 'all'){var sznvals = dt1.filter(function(d){return (yrid == (d.Season))});}
 	else {var sznvals = dt1.filter(function(d){return (yrid == (d.Season)) && (tmid.includes(d.TEAM_ID));});}
@@ -555,9 +595,23 @@ function teamBars(yrid, tmid, courtpart){
 	  	.attr("y", function(d){return h-marg-y(d.FGA)})
 	  	.attr("width", x.bandwidth()-5)
 	  	.attr("height", d => y(d.FGA))
-	  	.style('fill','#ededed')
+	  	.style('fill','#d3d3d3')
 	  	//.style("stroke", "black")
-	  	.attr("x", function (d,i) { return x(i)} );
+	  	.attr("x", function (d,i) { return x(i)} )
+	  	.on("mouseover", function(d) {
+	  	//console.log(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Shots attempted: "+d.FGA)		
+            divtip.transition()		
+                .duration(100)		
+                .style("opacity", .9);		
+            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Shots attempted: "+d.FGA)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+            divtip.transition()		
+                .duration(200)		
+                .style("opacity", 0);	
+        });
 
 	svg.selectAll("qs2")
 	    .data(condensed)
@@ -567,6 +621,19 @@ function teamBars(yrid, tmid, courtpart){
 	  	.attr("height", d => y(d.FGM))
 	  	.style('fill','#aed581')
 	  	//.style("stroke", "black")
+	  	.on("mouseover", function(d) {		
+            divtip.transition()		
+                .duration(100)		
+                .style("opacity", .9);		
+            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Shots attempted: "+d.FGA)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+            divtip.transition()		
+                .duration(200)		
+                .style("opacity", 0);	
+        })
 	  	.attr("x", function (d,i) { return x(i)} );
 
 
@@ -579,6 +646,19 @@ function teamBars(yrid, tmid, courtpart){
 			return "translate(" + xText + "," + yText + ") rotate(270)";
 		})
 	  	.text(d => d.team)
+	  	.on("mouseover", function(d) {		
+            divtip.transition()		
+                .duration(100)		
+                .style("opacity", .9);		
+            divtip.html(d.team+"<br/>"+"Shots made: "+d.FGM +"<br/>"+"Shots attempted: "+d.FGA)	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+            divtip.transition()		
+                .duration(200)		
+                .style("opacity", 0);	
+        })
 	  	.style('fill','black');
 
 }
@@ -608,15 +688,15 @@ function animateSeasons(){
 
 function oneSeason(szns, i, tmid){
 	document.getElementById("currentyr").innerText = szns[i];
+	document.getElementById(szns[i]).classList.add("clicked");
+	if(i>0){document.getElementById(szns[i-1]).classList.remove('clicked')};
 	var tmpdata = getData(szns[i],tmid);
 	setColors(tmpdata);
 	populateBar(tmpdata);
 	teamBars(szns[i],tmid,courtpart); //replace with custom d3 transitions? separate transition functions
 	//console.log(szns[i]);
 	if (i+1<szns.length) {
-		document.getElementById(szns[i]).classList.remove("clicked");
-		document.getElementById(szns[i+1]).classList.add('clicked');
-		setTimeout(function(){oneSeason(szns,i+1,tmid)}, 500);
+		setTimeout(function(){oneSeason(szns,i+1,tmid)}, 1000);
 	} else {
 
 		currentData = getData("2019-20",tmid);
@@ -635,10 +715,41 @@ document.getElementById("playanim").addEventListener('click',animateSeasons);
 
 </script>
 
-<div style="position:absolute;top:750px">
-<h2>About This Visualization</h2>
-<h2>Getting Started</h2>
-<h2>Design Choices and Reflection</h2>
+<div style="position:absolute;top:800px">
+<h2 id="getting-started">Getting Started</h2>
+<div style="width:1200px">
+	"Analytics" has become a major buzzword in basketball (and specifically in the National Basketball Association (NBA)) over the past 10 years, and some say the biggest impact "analytics" has had on basketball is the finding that while players are less accurate at making further away 3-point shots compared to nearer 2-point shots, the one point in added value is a good enough reason to stop taking so many shots from the paint and the mid-range and instead focus only on three pointers along with high-accuracy shots close to the basket. <a href="https://www.theatlantic.com/entertainment/archive/2015/06/nba-data-analytics/396776/" target=" blank">Here's an article from 2015 about this shift</a>. Below are some possible ways to explore this idea through this visualization:
+	<ul>
+		<li>First, what is the overall trend over time for the whole NBA with regards to shot distribution on the court? Does it match the trend described above?</li>
+		<li>Has accuracy changed a lot from 2010 to 2020? Is that surprising?</li>
+		<li>The Houston Rockets are a team that is well-known for embracing the three-point shot- how do their shot charts over time compare to the league as a whole?</li>
+		<li>The Golden State Warriors are another team that is often cited as an analytics and three-pointer heavy team. They won the NBA championship at the end of the 2017-18 season. What is interesting about that season in terms of the Warriors' ranking in a certain area of the court?</li>
+		<li>Looking at the top teams who made the most shots in each part of the court can help us to understand different teams' playing styles. Which teams are consistently at the front of the bar graph for each section of the court? For those who are familiar with these teams, does this align with your knowledge of their playing styles?</li>
+		<li>Most teams experienced an "inflection point" where they shifted their shots from 2-point land to 3-point land, with some experiencing this earlier than others. Where is this inflection for your favorite team? For our hometown <span style="color:green;">Boston Celtics🍀</span>, I would say this started in 2015-16 with the biggest change in 2016-17.</li>
+	</ul>
+</div>
+<h2 id="design-choices">Design Choices and Reflection</h2>
+<div style="width:1200px;margin-bottom: 100px;">
+<p>
+All data was accessed from the official NBA.com statistics databases online, using <a href="https://www.nba.com/stats/teams/shooting/?Season=2010-11&SeasonType=Regular%20Season&DistanceRange=By%20Zone&PerMode=Totals&sort=Above%20the%20Break%203%20FG%20PCT&dir=1" target=" blank">a search like this one</a> for the 2010-11 season and repeating for all seasons. Many basketball stats -focused websites produce shot charts but I was mostly inspired by <a href="https://www.basketball-reference.com/players/l/lowryky01/shooting/2017" target=" blank">Basketball-Reference.com</a> although what they have is not quite the same as this aggregated team-level visualization.
+</p>
+
+<p>
+A rationale for your design decisions. How did you choose your particular visual encodings, interaction, and animation techniques? What alternatives did you consider and how did you arrive at your ultimate choices? Heatmap, bars, tooltips, animation, filtering
+</p>
+
+<p>
+An overview of your development process. Describe how the work was split among the team members. Include a commentary on the development process, including answers to the following questions: Roughly how much time did you spend developing your application (in people-hours)? What aspects took the most time?
+</p>
+
+<p>
+<br/>
+<br/>
+By Kiran Gite, for MIT 6.859 Interactive Data Visualization assignment 4
+</p>
+
+</div>
+
 </div>
 
 </body>
